@@ -3,7 +3,7 @@ package org.paperrockscissors
 import org.paperrockscissors.process.ProcessHandler
 
 // start: 14:55
-// end:
+// end: 17:34
 
 fun main() {
     ProcessHandler().start()

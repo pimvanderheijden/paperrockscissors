@@ -13,10 +13,17 @@ application {
 
 repositories {
     mavenCentral()
+
+    maven {
+        url = uri("org.jetbrains.kotlinx")
+    }
 }
 
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines:0.19.2")
 }
 
 tasks.test {

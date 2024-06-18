@@ -3,7 +3,7 @@ package org.paperrockscissors.domain
 enum class Choice {
     PAPER, ROCK, SCISSORS;
 
-    fun getSCoreAlt(other: Choice): Int {
+    fun getScoreAlt(other: Choice): Int {
         val choiceAsInt = choiceToInt(this)
         val otherAsInt = choiceToInt(other)
 
@@ -14,7 +14,7 @@ enum class Choice {
         }
     }
 
-    fun getSCore(other: Choice): Int {
+    fun getScore(other: Choice): Int {
         return when (Pair(this, other)) {
             Pair(PAPER, ROCK) -> 1
             Pair(PAPER, SCISSORS) -> -1
@@ -30,8 +30,8 @@ enum class Choice {
     }
 
     companion object {
-        fun fromString(line: String): Choice? {
-            return when (line) {
+        fun fromString(str: String): Choice? {
+            return when (str) {
                 "rock" -> ROCK
                 "paper" -> PAPER
                 "scissors" -> SCISSORS

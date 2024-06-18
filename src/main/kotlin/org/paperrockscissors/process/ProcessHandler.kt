@@ -28,8 +28,8 @@ class ProcessHandler() {
 
                 val computerChoice = Choice.getRandom()
 
-                val score = userChoice.getSCore(computerChoice)
-                // val score = userChoice.getSCoreAlt(computerChoice)
+                val score = userChoice.getScore(computerChoice)
+                // val score = userChoice.getScoreAlt(computerChoice)
 
                 gameHistory.add(userChoice, computerChoice, score)
                 continue
