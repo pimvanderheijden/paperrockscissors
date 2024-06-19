@@ -5,7 +5,7 @@ import kotlin.math.sign
 typealias Log = Triple<Choice, Choice, Int>
 
 class GameHistory {
-    private var entries = mutableListOf<Log>()
+    var entries = mutableListOf<Log>()
 
     fun add(userChoice: Choice, computerChoice: Choice, score: Int) {
         val scoreStr = Choice.scoreToString(score)

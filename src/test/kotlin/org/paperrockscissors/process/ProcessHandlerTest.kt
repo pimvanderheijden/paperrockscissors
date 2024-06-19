@@ -1,32 +1,48 @@
-package org.paperrockscissors.domain
+package org.paperrockscissors.process
 
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Timeout
-import java.util.Timer
-import kotlin.concurrent.timerTask
+import org.paperrockscissors.domain.Choice
+import org.paperrockscissors.lib.InputReader
+import kotlin.test.assertEquals
+
+class MockInputReader(private val mockData: String, private val times: Int = 1) : InputReader {
+    private var count: Int = 0
+
+    override fun read(): String? {
+        return if (++count <= times) {
+            mockData
+        } else {
+            // TODO better way to fake behavior of waiting for user input
+            runBlocking {
+                Thread.sleep(1000)
+            }
+            null
+        }
+    }
+}
 
 class ProcessHandlerTest {
-    @Timeout(4)
     @Test
-    @Suppress
-    fun `Async`() {
-        val channel = Channel<Int>(1)
+    fun `User input`() = runBlocking {
+        val mockInputReader = MockInputReader("Rock \n")  // capitalize and add space
+        val processHandler = ProcessHandler(inputReader = mockInputReader)
 
-        runBlocking {
-            Timer().schedule(timerTask {
-                runBlocking {
-                    channel.send(1)
-                }
-            }, 200)
-
-            withTimeout(500) { channel.receive() }
+        launch {
+            processHandler.start()
         }
 
-        assertEquals(1, 1)
-        channel.close()
+        // TODO Need some kind of event to emitted from processHandler to know when a line has been processed
+        delay(100)
+        processHandler.stop()
+
+        assertEquals(1, processHandler.gameHistory.entries.size)
+
+        val entry = processHandler.gameHistory.entries[0]
+
+        assertEquals(Choice.ROCK, entry.first)
+        assert(entry.third in -1..1)
     }
 }

@@ -10,8 +10,7 @@ class UserInput(private val line: String) {
     }
 
     companion object {
-        fun fromReadLn(): UserInput? {
-            val line = readlnOrNull() ?: return null
+        fun fromReadLn(line: String): UserInput {
             return UserInput(line = sanitize(line))
         }
 
